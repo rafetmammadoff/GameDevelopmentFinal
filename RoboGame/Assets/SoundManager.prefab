@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6304736358667187855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6304736358667187953}
+  - component: {fileID: 6304736358667187852}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6304736358667187953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6304736358667187855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6304736358667187852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6304736358667187855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaba2c809193a404081f0f0fbdd84905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - Name: CollectSound
+    Clip: {fileID: 8300000, guid: cd49e86de1f716c4c8c0c1b7a6afd7b2, type: 3}
+    Volume: 0.862
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Fry
+    Clip: {fileID: 8300000, guid: df148ad30dce06843b827add970969a1, type: 3}
+    Volume: 0.862
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Press
+    Clip: {fileID: 8300000, guid: 4d2ef902b600c024eb4468fc408fe02b, type: 3}
+    Volume: 0.862
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Sell
+    Clip: {fileID: 8300000, guid: 334538bf8178db24b9bd00282144206a, type: 3}
+    Volume: 0.383
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Chese
+    Clip: {fileID: 8300000, guid: d0698ff878584bb43bc9ce1fd0e1325b, type: 3}
+    Volume: 0.634
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Dress
+    Clip: {fileID: 8300000, guid: c8e8e3169f1e9834b94e04a67eb8a821, type: 3}
+    Volume: 0.862
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Hamur
+    Clip: {fileID: 8300000, guid: 93ca25852e5712d4781bee88a5cab96c, type: 3}
+    Volume: 0.608
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
+  - Name: Obstacle
+    Clip: {fileID: 8300000, guid: d40b2776740636f418d326e3b286d100, type: 3}
+    Volume: 0.862
+    Pitch: 1
+    Loop: 0
+    source: {fileID: 0}
