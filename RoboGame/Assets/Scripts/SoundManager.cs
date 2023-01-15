@@ -52,6 +52,14 @@ namespace CASP.SoundManager
             s.source?.Stop();
         }
 
+        public void ChangeVolume(float volume)
+        {
+            foreach (var sound in sounds)
+            {
+                sound.source.volume = volume;
+            }
+        }
+
     }
 
 }

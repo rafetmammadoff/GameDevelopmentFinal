@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isRight;
     public bool isRun=true;
     public bool isHold=true;
+    public GameObject mouse;
+
 
     private void Awake()
     {
@@ -50,6 +52,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if (!onGround)
+        {
+            SoundManager.instance.Stop("footStep");
+        }
+        
         if (isRight && movement<0)
         {
             isMoveable = true;
@@ -113,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
             if (!HoldControl.Instance.isPicked)
             {
                 EventHolder.Instance.PlayerMoveStart(gameObject);
-                if (isRun)
+                if (isRun && onGround)
                 {
                     SoundManager.instance.Play("footStep", true);
                     isRun= false;
@@ -241,7 +248,10 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("ropeMove", false);
             MovementSpeed = 0;
         }
-
+        if (other.CompareTag("ratActive"))
+        {
+            mouse.transform.DOMove(new Vector3(transform.position.x-20f,transform.position.y,transform.position.z),3);
+        }
 
         if (other.CompareTag("fallCube"))
         {

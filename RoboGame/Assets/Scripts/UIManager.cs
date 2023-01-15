@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject StoryPanel;
     [SerializeField] GameObject firstVideoPlayer;
     [SerializeField] GameObject secondVideoPlayer;
+    [SerializeField] Slider optionsSlider;
+    [SerializeField] Slider optionsGameSlider;
 
     [SerializeField] GameObject StoryVideoPlayer;
     [SerializeField] GameObject StoryVideo;
@@ -44,6 +46,7 @@ public class UIManager : MonoBehaviour
     PointerEventData eventData;
     public bool isStart = true;
     public Loader isLoader;
+   
 
     private void Awake()
     {
@@ -101,6 +104,9 @@ public class UIManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
 
+
+        optionsGameSlider.onValueChanged.AddListener(ChangeVolume);
+        optionsSlider.onValueChanged.AddListener(ChangeVolume);
 
     }
 
@@ -245,7 +251,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator Loading()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(16);
         HomePanel.SetActive(true);
         //HomePanel.transform.localScale = Vector3.zero;
         //HomePanel.transform.DOScale(1f, 0.4f).OnComplete(() =>
@@ -257,7 +263,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator LoadingSecVideo()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
         secondVideoPlayer.GetComponent<VideoPlayer>().enabled = false;
         SecondVideo.GetComponent<RawImage>().enabled=false ;
         GeneralPanel.SetActive(true);
@@ -281,5 +287,13 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(.4f);
         FirstVideo.GetComponent<RawImage>().color = Color.white;
 
+    }
+
+    private void ChangeVolume(float volume)
+    {
+        firstVideoPlayer.GetComponent<VideoPlayer>().SetDirectAudioVolume(0, volume);
+        StoryVideoPlayer.GetComponent<VideoPlayer>().SetDirectAudioVolume(0, volume);
+        secondVideoPlayer.GetComponent<VideoPlayer>().SetDirectAudioVolume(0, volume);
+        SoundManager.instance.ChangeVolume(volume);
     }
 }

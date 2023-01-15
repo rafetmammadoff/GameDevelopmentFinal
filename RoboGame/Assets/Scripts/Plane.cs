@@ -39,9 +39,9 @@ public class Plane : MonoBehaviour
     public IEnumerator WaitFly()
     {
         yield return new WaitForSeconds(0.5f);
-        transform.DOMoveY(transform.position.y + 6, 4).OnComplete(() =>
+        transform.DOMoveY(transform.position.y + 8, 4).OnComplete(() =>
         {
-            transform.DOMoveY(1f, 4).OnComplete(() =>
+            transform.DOMoveY(.8f, 4).OnComplete(() =>
             {
                 PlaneAnim.SetTrigger("deactive");
             });
