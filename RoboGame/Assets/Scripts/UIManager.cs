@@ -153,6 +153,7 @@ public class UIManager : MonoBehaviour
         LevelPanel.SetActive(false) ;
         SecondVideo.GetComponent<RawImage>().enabled=true ;
         secondVideoPlayer.GetComponent<VideoPlayer>().enabled = true; 
+
         StartCoroutine(LoadingSecVideo());
 
     }
@@ -162,12 +163,14 @@ public class UIManager : MonoBehaviour
         StoryPanel.SetActive(true);
         StoryVideo.GetComponent<RawImage>().enabled = true;
         StoryVideoPlayer.GetComponent<VideoPlayer>().enabled = true;
+        StartCoroutine(wait4());
     }
     public void CloseStoryVideo()
     {
         StoryPanel.SetActive(false) ;
         StoryVideo.GetComponent<RawImage>().enabled = false;
         StoryVideoPlayer.GetComponent<VideoPlayer>().enabled = false;
+        StoryVideo.GetComponent<RawImage>().color= Color.black;
     }
     public void closePostcardPanel()
     {
@@ -251,7 +254,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator Loading()
     {
-        yield return new WaitForSeconds(16);
+        yield return new WaitForSeconds(22);
         HomePanel.SetActive(true);
         //HomePanel.transform.localScale = Vector3.zero;
         //HomePanel.transform.DOScale(1f, 0.4f).OnComplete(() =>
@@ -263,10 +266,14 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator LoadingSecVideo()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(.3f);
+        DOTween.To(() => SecondVideo.GetComponent<RawImage>().color, x => SecondVideo.GetComponent<RawImage>().color = x, new Color32(255, 255, 255, 255), .6f);
+        yield return new WaitForSeconds(4);
         secondVideoPlayer.GetComponent<VideoPlayer>().enabled = false;
         SecondVideo.GetComponent<RawImage>().enabled=false ;
         GeneralPanel.SetActive(true);
+        SecondVideo.GetComponent<RawImage>().color = Color.black;
+       
     }
 
     public void Restart()
@@ -282,6 +289,16 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
     }
+
+    public IEnumerator wait4()
+    {
+        yield return new WaitForSeconds(.3f);
+        DOTween.To(() => StoryVideo.GetComponent<RawImage>().color, x => StoryVideo.GetComponent<RawImage>().color = x, new Color32(255, 255, 255, 255), 1f);
+    }
+    //public IEnumerator wait5()
+    //{
+       
+    //}
     public IEnumerator waitChangeColor()
     {
         yield return new WaitForSeconds(.4f);

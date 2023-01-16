@@ -34,10 +34,11 @@ public class PlayerMovement : MonoBehaviour
     public bool isMoveable = true;
     public bool isDead = false;
     public bool isRight;
-    public bool isRun=true;
+    public bool isRun=false;
     public bool isHold=true;
     public GameObject mouse;
-
+    public Renderer render;
+    public Texture deadTexture;
 
     private void Awake()
     {
@@ -52,18 +53,28 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (!onGround)
-        {
-            SoundManager.instance.Stop("footStep");
-        }
+        //if (!onGround)
+        //{
+        //    SoundManager.instance.Stop("footStep");
+        //}
         
         if (isRight && movement<0)
         {
+            //if (!isRun)
+            //{
+            //    SoundManager.instance.Play("footStep", true);
+            //    isRun = true;
+            //}
             isMoveable = true;
             MovementSpeed = 3;
         }
         if (!isRight && movement>0)
         {
+            //if (!isRun)
+            //{
+            //    SoundManager.instance.Play("footStep", true);
+            //    isRun = true;
+            //}
             isMoveable = true;
             MovementSpeed = 3;
         }
@@ -75,6 +86,55 @@ public class PlayerMovement : MonoBehaviour
         {
             isRight = false;
         }
+        #region CheckRaycast
+        Debug.DrawRay(rayTransform.position, -rayTransform.right * 0.3f, Color.red);
+        if (Physics.Raycast(rayTransform.position, -rayTransform.right, out hit, 0.3f))
+        {
+            if (hit.transform.CompareTag("box"))
+            {
+                MovementSpeed = 0;
+                customMagnitude = 0;
+                EventHolder.Instance.PlayerRunToIdle(gameObject);
+               // SoundManager.instance.Stop("footStep");
+            }
+
+
+        }
+        else
+        {
+            
+            if (!HoldControl.Instance.isPicked)
+            {
+                
+                isMoveable = true;
+                MovementSpeed = 3f;
+            }
+        }
+
+
+
+
+        //Debug.DrawRay(rayTransformBack.position, rayTransformBack.right * 0.3f, Color.red);
+        //if (Physics.Raycast(rayTransformBack.position, rayTransformBack.right, out hit, 0.3f))
+        //{
+        //    if (hit.transform.CompareTag("box"))
+        //    {
+        //        Debug.Log(hit.transform.name);
+        //        MovementSpeed = 0;
+        //        customMagnitude = 0;
+        //        EventHolder.Instance.PlayerRunToIdle(gameObject);
+        //    }
+
+
+        //}
+        //else
+        //{
+        //    if (!HoldControl.Instance.isPicked)
+        //    {
+        //        MovementSpeed = 3f;
+        //    }
+        //}
+        #endregion
         #region RopeClimb
         if (inrope)
         {
@@ -120,17 +180,22 @@ public class PlayerMovement : MonoBehaviour
             if (!HoldControl.Instance.isPicked)
             {
                 EventHolder.Instance.PlayerMoveStart(gameObject);
-                if (isRun && onGround)
-                {
-                    SoundManager.instance.Play("footStep", true);
-                    isRun= false;
-                }
+                //if (!isRun && onGround)
+                //{
+                //    SoundManager.instance.Play("footStep", true);
+                //    isRun= true;
+                //}
+                //else if (!onGround)
+                //{
+                //    SoundManager.instance.Stop("footStep");
+                //    isRun= false;
+                //}
             }
             else
             {
                 if (isHold)
                 {
-                    SoundManager.instance.Play("footStep", true);
+                    //SoundManager.instance.Play("footStep", true);
                     SoundManager.instance.Play("holdTaxta", true);
                     isHold= false;
                 }
@@ -159,13 +224,14 @@ public class PlayerMovement : MonoBehaviour
             if (!GetComponent<HoldControl>().isPicked)
             {
                 EventHolder.Instance.PlayerRunToIdle(gameObject);
-                SoundManager.instance.Stop("footStep");
-                isRun = true;
+               // SoundManager.instance.Stop("footStep");
+                isRun = false;
             }
             if (GetComponent<HoldControl>().isPicked)
             {
                 SoundManager.instance.Stop("holdTaxta");
-                SoundManager.instance.Stop("footStep");
+               // SoundManager.instance.Stop("footStep");
+                isRun = false;
                 isHold= true;
                 EventHolder.Instance.OnPlayerHoldMoveToHoldIdle(gameObject);
 
@@ -173,54 +239,7 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-        #region CheckRaycast
-        Debug.DrawRay(rayTransform.position, -rayTransform.right * 0.3f, Color.red);
-        if (Physics.Raycast(rayTransform.position, -rayTransform.right, out hit, 0.3f))
-        {
-            if (hit.transform.CompareTag("box"))
-            {
-                Debug.Log(hit.transform.name);
-                MovementSpeed = 0;
-                customMagnitude = 0;
-                EventHolder.Instance.PlayerRunToIdle(gameObject);
-                SoundManager.instance.Stop("footStep");
-            }
-
-
-        }
-        else
-        {
-            if (!HoldControl.Instance.isPicked)
-            {
-                isMoveable=true;
-                MovementSpeed = 3f;
-            }
-        }
-
-
-
-
-        //Debug.DrawRay(rayTransformBack.position, rayTransformBack.right * 0.3f, Color.red);
-        //if (Physics.Raycast(rayTransformBack.position, rayTransformBack.right, out hit, 0.3f))
-        //{
-        //    if (hit.transform.CompareTag("box"))
-        //    {
-        //        Debug.Log(hit.transform.name);
-        //        MovementSpeed = 0;
-        //        customMagnitude = 0;
-        //        EventHolder.Instance.PlayerRunToIdle(gameObject);
-        //    }
-
-
-        //}
-        //else
-        //{
-        //    if (!HoldControl.Instance.isPicked)
-        //    {
-        //        MovementSpeed = 3f;
-        //    }
-        //}
-        #endregion
+       
     }
     private void FixedUpdate()
     {
@@ -250,7 +269,9 @@ public class PlayerMovement : MonoBehaviour
         }
         if (other.CompareTag("ratActive"))
         {
-            mouse.transform.DOMove(new Vector3(transform.position.x-20f,transform.position.y,transform.position.z),3);
+           //mouse.transform.position+= mouse.transform.right * .1f * Time.deltaTime;
+           // mouse.transform.DOMove(new Vector3(transform.position.x-20f,transform.position.y,transform.position.z),3);
+           mouse.gameObject.AddComponent<mouse>();
         }
 
         if (other.CompareTag("fallCube"))
@@ -443,9 +464,13 @@ public class PlayerMovement : MonoBehaviour
         {
             inrope = false;
         }
-
+        if (other.transform.CompareTag("Ground")|| other.transform.CompareTag("box"))
+        {
+            isRun=false;
+        }
         if (other.transform.CompareTag("tele"))
         {
+            render.material.mainTexture = deadTexture;
             tele.Instance.teleAnim.SetTrigger("active");
             tele.Instance.isActive = false;
             SoundManager.instance.Play("tele", true);
@@ -455,6 +480,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (other.transform.CompareTag("blender") && blender.Instance.isActive)
         {
+            render.material.mainTexture = deadTexture;
             anim.SetTrigger("dead");
             
            // Rigidbody.AddForce(Vector3.left*10f, ForceMode.Impulse);
@@ -491,11 +517,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+    
     private void OnCollisionExit(Collision other)
     {
-        if (other.transform.CompareTag("Ground"))
+        if (other.transform.CompareTag("Ground") || other.transform.CompareTag("box"))
         {
             onGround = false;
         }
     }
+
 }
